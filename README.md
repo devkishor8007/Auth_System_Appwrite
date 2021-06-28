@@ -1,4 +1,4 @@
-# auth_system
+# auth_system_appwrite
 
 A new Flutter project Auth System Mobile App using Flutter with Appwrite.
 
