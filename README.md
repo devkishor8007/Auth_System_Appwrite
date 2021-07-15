@@ -31,7 +31,7 @@ First get the dependencies by running ```flutter pub get```. Then you can run th
 
 ## Features
 
-  - User can Login and Signup the app.
+  - User can Login,Logout and Signup the app.
   - User can change their name, email and password.
 
 ##
