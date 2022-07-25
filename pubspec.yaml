@@ -23,8 +23,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  appwrite: ^0.6.4
+  appwrite: ^6.0.0
   cupertino_icons: ^1.0.2
+  equatable: ^2.0.3
 
 dev_dependencies:
   flutter_test:
