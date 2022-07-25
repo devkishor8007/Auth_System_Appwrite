@@ -1,18 +1,14 @@
-import 'package:auth_system/widget/makeText.dart';
+import 'package:auth_system/widget/make_text.dart';
 import 'package:flutter/material.dart';
 
 Widget makeElevatedButton(
   String textString, {
-  Function onPressed,
-  Size minimumSize,
-  double textSize,
+  required Function onPressed,
+  Size? minimumSize,
+  double? textSize,
 }) {
   return ElevatedButton(
-    onPressed: onPressed,
-    child: makeText(
-      textString,
-      size: textSize,
-    ),
+    onPressed: () => onPressed,
     style: ElevatedButton.styleFrom(
       primary: Colors.amberAccent,
       onPrimary: Colors.black,
@@ -20,6 +16,10 @@ Widget makeElevatedButton(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(19),
       ),
+    ),
+    child: makeText(
+      textString,
+      size: textSize,
     ),
   );
 }

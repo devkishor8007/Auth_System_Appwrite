@@ -1,39 +1,39 @@
 import 'package:flutter/material.dart';
 
 Widget makeTextField(
-    {String hintText,
-    TextEditingController controller,
-    bool obscureText,
-    Widget suffixIcon,
-    FocusNode focusNode,
-    Function onFieldSubmitted,
-    TextInputAction textInputAction,
-    bool autofocus}) {
+    {String? hintText,
+    required TextEditingController controller,
+    bool? obscureText,
+    Widget? suffixIcon,
+    FocusNode? focusNode,
+    Function(String)? onFieldSubmitted,
+    TextInputAction? textInputAction,
+    bool? autofocus}) {
   return TextFormField(
     autofocus: autofocus ?? false,
     focusNode: focusNode,
     textInputAction: textInputAction,
-    onFieldSubmitted: onFieldSubmitted,
+    onFieldSubmitted:(value) => onFieldSubmitted,
     controller: controller,
     obscureText: obscureText ?? false,
     decoration: InputDecoration(
       suffixIcon: suffixIcon,
       hintText: hintText,
-      hintStyle: TextStyle(color: Colors.grey),
+      hintStyle: const TextStyle(color: Colors.grey),
       focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(
+        borderSide: const BorderSide(
           color: Colors.grey,
         ),
         borderRadius: BorderRadius.circular(15),
       ),
       enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(
+        borderSide: const BorderSide(
           color: Colors.grey,
         ),
         borderRadius: BorderRadius.circular(15),
       ),
       errorBorder: OutlineInputBorder(
-        borderSide: BorderSide(
+        borderSide: const BorderSide(
           color: Colors.grey,
         ),
         borderRadius: BorderRadius.circular(15),

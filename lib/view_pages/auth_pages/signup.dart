@@ -1,44 +1,47 @@
 import 'package:appwrite/appwrite.dart';
-import 'package:auth_system/data/service/appwriteAUTH_service.dart';
-import 'package:auth_system/widget/makeElevatedButton.dart';
-import 'package:auth_system/widget/makeText.dart';
-import 'package:auth_system/widget/makeTextButton.dart';
-import 'package:auth_system/widget/makeTextField.dart';
+import 'package:auth_system/data/service/appwrite_auth_service.dart';
+import 'package:auth_system/widget/make_elevated_button.dart';
+import 'package:auth_system/widget/make_text.dart';
+import 'package:auth_system/widget/make_text_button.dart';
+import 'package:auth_system/widget/make_text_field.dart';
 import 'package:auth_system/widget/route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class SignupPage extends StatefulWidget {
+  const SignupPage({Key? key}) : super(key: key);
+
   @override
-  _SignupPageState createState() => _SignupPageState();
+  State<SignupPage> createState() => _SignupPageState();
 }
 
 class _SignupPageState extends State<SignupPage> {
   bool _showPassword = true;
-  TextEditingController _name;
-  TextEditingController _email;
-  TextEditingController _pass;
+  late TextEditingController _name;
+  late TextEditingController _email;
+  late TextEditingController _pass;
 
-  FocusNode femail;
-  FocusNode fpass;
-  FocusNode fname;
+  late FocusNode femail;
+  late FocusNode fpass;
+  late FocusNode fname;
 
   @override
   void initState() {
+    super.initState();
     _name = TextEditingController();
     _email = TextEditingController();
     _pass = TextEditingController();
     femail = FocusNode();
     fname = FocusNode();
     fpass = FocusNode();
-    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
     fname.dispose();
     femail.dispose();
     fpass.dispose();
+    super.dispose();
   }
 
   @override
@@ -57,7 +60,7 @@ class _SignupPageState extends State<SignupPage> {
               makeText(
                 "Auth System",
                 fontWeight: FontWeight.bold,
-                size: Theme.of(context).textTheme.headline5.fontSize,
+                size: Theme.of(context).textTheme.headline5!.fontSize,
               ),
               SizedBox(
                 height: size.height * 0.2,
@@ -66,7 +69,7 @@ class _SignupPageState extends State<SignupPage> {
                 "Sign Up",
                 fontWeight: FontWeight.bold,
                 textColor: Colors.grey,
-                size: Theme.of(context).textTheme.headline6.fontSize,
+                size: Theme.of(context).textTheme.headline6!.fontSize,
               ),
               SizedBox(
                 height: size.height * 0.02,
@@ -122,21 +125,22 @@ class _SignupPageState extends State<SignupPage> {
               ),
               makeElevatedButton(
                 "Create an Account",
-                textSize: Theme.of(context).textTheme.button.fontSize,
-                onPressed: () {
+                textSize: Theme.of(context).textTheme.button!.fontSize!,
+                onPressed: () async {
                   var email = _email.text;
                   var name = _name.text;
                   var pass = _pass.text;
                   try {
-                    AuthAppwrite.instance.signup(
+                    await AuthAppwrite.instance!.signup(
+                      userID: '',
                       name: name,
                       email: email,
                       password: pass,
                     );
-
+                    if (!mounted) return;
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        duration: Duration(seconds: 1),
+                        duration: const Duration(seconds: 1),
                         content: makeText(
                           "Successfully Create Your Account",
                         ),
@@ -144,7 +148,7 @@ class _SignupPageState extends State<SignupPage> {
                     );
                     pop(context);
                   } on AppwriteException catch (e) {
-                    print(e.message);
+                    if (kDebugMode) print(e.message);
                   }
                 },
                 minimumSize: Size(
