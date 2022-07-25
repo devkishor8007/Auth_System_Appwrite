@@ -1,7 +1,7 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:auth_system/data/model/user.dart';
-import 'package:auth_system/res/appwriteConstant.dart';
+import 'package:auth_system/res/appwrite_constant.dart';
 
 class AuthAppwrite {
   static AuthAppwrite? _instance;
