@@ -1,38 +1,40 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:auth_system/data/model/user.dart';
-import 'package:auth_system/data/service/appwriteAUTH_service.dart';
+import 'package:auth_system/data/service/appwrite_auth_service.dart';
 import 'package:auth_system/main.dart';
-import 'package:auth_system/widget/makeElevatedButton.dart';
-import 'package:auth_system/widget/makeText.dart';
-import 'package:auth_system/widget/makeTextField.dart';
+import 'package:auth_system/widget/make_elevated_button.dart';
+import 'package:auth_system/widget/make_text.dart';
+import 'package:auth_system/widget/make_text_field.dart';
 import 'package:auth_system/widget/route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
-  final User user;
-  HomePage({this.user});
+  final UserData user;
+
+  const HomePage({Key? key, required this.user}) : super(key: key);
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  TextEditingController _updateName;
-  TextEditingController _updateEmail;
-  TextEditingController _pass;
-  TextEditingController _changeps;
-  TextEditingController _oldps;
+  late TextEditingController _updateName;
+  late TextEditingController _updateEmail;
+  late TextEditingController _pass;
+  late TextEditingController _changeps;
+  late TextEditingController _oldps;
 
   bool _obsecure = true;
   bool _obsecure1 = true;
 
   @override
   void initState() {
+    super.initState();
     _updateName = TextEditingController();
     _updateEmail = TextEditingController();
     _pass = TextEditingController();
     _changeps = TextEditingController();
     _oldps = TextEditingController();
-    super.initState();
   }
 
   @override
@@ -48,7 +50,6 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: Drawer(
         child: ListView(
-          padding: EdgeInsets.all(0),
           children: [
             UserAccountsDrawerHeader(
               accountName: makeText(
@@ -60,19 +61,21 @@ class _HomePageState extends State<HomePage> {
                 child: makeText(
                   userValidate.substring(0, 1).toUpperCase(),
                   fontWeight: FontWeight.bold,
-                  size: Theme.of(context).textTheme.headline6.fontSize,
+                  size: Theme.of(context).textTheme.headline6!.fontSize!,
                 ),
               ),
             ),
             ListTile(
               title: makeText("Logout"),
-              leading: Icon(Icons.logout),
+              leading: const Icon(Icons.logout),
               onTap: () async {
                 try {
-                  await AuthAppwrite.instance.logout();
-                  pushReplacement(context, MainPage());
+                  await AuthAppwrite.instance!.logout();
+
+                  if (!mounted) return;
+                  pushReplacement(context, const MainPage());
                 } on AppwriteException catch (e) {
-                  print(e.message);
+                  if (kDebugMode) print(e.message);
                 }
               },
             ),
@@ -80,7 +83,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: ListView(
           children: [
             SizedBox(
@@ -99,22 +102,27 @@ class _HomePageState extends State<HomePage> {
               onPressed: () async {
                 var name = _updateName.text;
                 try {
-                  await AuthAppwrite.instance.updateName(name: name);
+                  await AuthAppwrite.instance!.updateName(name: name);
+
+                  if (!mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      duration: Duration(seconds: 1),
+                      duration: const Duration(seconds: 1),
                       content: makeText("Name Change"),
                     ),
                   );
                   _updateName.clear();
-                  await AuthAppwrite.instance.logout();
-                  push(context, MainPage());
+                  await AuthAppwrite.instance!.logout();
+
+                  if (!mounted) return;
+                  push(context, const MainPage());
                 } on AppwriteException catch (e) {
-                  print(e.message);
+                  if (kDebugMode) print(e.message);
+
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      duration: Duration(seconds: 1),
-                      content: makeText(e.message),
+                      duration: const Duration(seconds: 1),
+                      content: makeText(e.message!),
                     ),
                   );
                 }
@@ -123,7 +131,7 @@ class _HomePageState extends State<HomePage> {
             SizedBox(
               height: size.height * 0.03,
             ),
-            Divider(
+            const Divider(
               height: 3,
               thickness: 7.0,
               color: Colors.amberAccent,
@@ -147,25 +155,30 @@ class _HomePageState extends State<HomePage> {
                 var pass = _pass.text;
 
                 try {
-                  await AuthAppwrite.instance.updateEmail(
+                  await AuthAppwrite.instance!.updateEmail(
                     email: email,
                     password: pass,
                   );
+
+                  if (!mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      duration: Duration(seconds: 1),
+                      duration: const Duration(seconds: 1),
                       content: makeText("Update Email"),
                     ),
                   );
                   _updateName.clear();
-                  await AuthAppwrite.instance.logout();
-                  push(context, MainPage());
+                  await AuthAppwrite.instance!.logout();
+
+                  if (!mounted) return;
+                  push(context, const MainPage());
                 } on AppwriteException catch (e) {
-                  print(e.message);
+                  if (kDebugMode) print(e.message);
+
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      duration: Duration(seconds: 1),
-                      content: makeText(e.message),
+                      duration: const Duration(seconds: 1),
+                      content: makeText(e.message!),
                     ),
                   );
                 }
@@ -174,7 +187,7 @@ class _HomePageState extends State<HomePage> {
             SizedBox(
               height: size.height * 0.03,
             ),
-            Divider(
+            const Divider(
               height: 3,
               thickness: 7.0,
               color: Colors.amberAccent,
@@ -225,25 +238,29 @@ class _HomePageState extends State<HomePage> {
                 var pass = _changeps.text;
                 var old = _oldps.text;
                 try {
-                  await AuthAppwrite.instance.updatePassword(
+                  await AuthAppwrite.instance!.updatePassword(
                     password: pass,
                     oldpw: old,
                   );
+
+                  if (!mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      duration: Duration(seconds: 1),
+                      duration: const Duration(seconds: 1),
                       content: makeText("Change password"),
                     ),
                   );
                   _changeps.clear();
-                  await AuthAppwrite.instance.logout();
-                  push(context, MainPage());
+                  await AuthAppwrite.instance!.logout();
+
+                  if (!mounted) return;
+                  push(context, const MainPage());
                 } on AppwriteException catch (e) {
-                  print(e.message);
+                  if (kDebugMode) print(e.message);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      duration: Duration(seconds: 1),
-                      content: makeText(e.message),
+                      duration: const Duration(seconds: 1),
+                      content: makeText(e.message!),
                     ),
                   );
                 }
